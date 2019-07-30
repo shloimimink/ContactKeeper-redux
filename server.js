@@ -4,16 +4,16 @@ const path = require('path');
 
 const app = express();
 
-// Connect database
+// Connect Database
 connectDB();
 
 // Init Middleware
-app.use(express.json({extended: false}));
+app.use(express.json({ extended: false }));
 
-// define API routes
+// Define Routes
 app.use('/api/users', require('./routes/api/users'));
-app.use('/api/contacts', require('./routes/api/contacts'));
 app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/contacts', require('./routes/api/contacts'));
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
@@ -27,6 +27,4 @@ if (process.env.NODE_ENV === 'production') {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log(`Server started on ${PORT}`));
-
-
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
