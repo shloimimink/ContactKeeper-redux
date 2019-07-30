@@ -10,7 +10,6 @@ connectDB();
 // Init Middleware
 app.use(express.json({extended: false}));
 
-
 // define API routes
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/contacts', require('./routes/api/contacts'));
