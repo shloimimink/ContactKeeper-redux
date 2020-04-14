@@ -1,12 +1,10 @@
-import React, {useState, useContext, useEffect} from 'react';
-import ContactContext from '../../context/contact/contactContext';
+import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
+import {addContact, updateContact, clearCurrent} from '../../actions/contactActions';
 
 
 
-const ContactForm = () => {
-    const contactContext = useContext(ContactContext);
-
-    const {addContact, clearCurrent, updateContact, current} = contactContext;
+const ContactForm = ({current}) => {
 
     useEffect(() => {
         if (current !== null) {
@@ -19,7 +17,7 @@ const ContactForm = () => {
                 type: 'personal'
             })
         }
-    }, [contactContext, current]);
+    }, [current]);
 
     const [contact, setContact] = useState({
         name: '',
@@ -82,4 +80,4 @@ const ContactForm = () => {
     );
 };
 
-export default ContactForm;
+export default connect(null, {addContact, updateContact, clearCurrent}) (ContactForm);

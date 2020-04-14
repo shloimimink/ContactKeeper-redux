@@ -1,56 +1,45 @@
-import React, {useState, useContext, useEffect} from 'react';
-import AlertContext from'../../context/alert/AlertContext';
-import AuthContext from'../../context/auth/AuthContext';
+import React, {useState} from 'react';
+import {connect} from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import {setAlert} from '../../actions/alert';
+import {clearErrors, register} from '../../actions/auth';
 
 
-const Register = (props) => {
-    const alertContext = useContext(AlertContext);
-    const authContext = useContext(AuthContext);
+const Register = ({props, error, isAuthenticated}) => {
 
-
-    const {setAlert} = alertContext;
-    const {register, error, clearErrors, isAuthenticated} = authContext;
-
-    useEffect(() => {
-        if (isAuthenticated) {
-            props.history.push('/')
-        }
-
-        if (error === 'User already exists') {
-            setAlert(error, 'danger');
-            clearErrors()
-        }
-        // eslint-disable-next-line
-    }, [error, isAuthenticated, props.history]);
-
-    const [user, setUser] = useState({
-       name: '',
-       email: '',
-       password: '',
-       password2: ''
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        password: '',
+        password2: ''
     });
 
-    const {name, email, password, password2} = user;
+    const { name, email, password, password2 } = formData;
 
-    const onChange = (e) => {
-        setUser({...user, [e.target.name]: e.target.value})
-    };
+    const onChange = e =>
+        setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = (e) => {
         e.preventDefault();
         if (name === ''|| email === ''|| password === '') {
+            console.log(setAlert);
             setAlert('Please enter all fields', 'danger')
         } else if (password !== password2) {
             setAlert('Passwords do not match', 'danger')
         } else {
-           register({
-               name,
-               email,
-               password
-           })
+            console.log('hgello');
+            register({
+                name,
+                email,
+                password
+            })
         }
 
     };
+
+    if (isAuthenticated) {
+        return <Redirect to='/' />;
+    }
 
     return (
         <div className="form-container">
@@ -80,4 +69,9 @@ const Register = (props) => {
     );
 };
 
-export default Register;
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+
+
+export default connect(mapStateToProps, {setAlert, clearErrors, register}) (Register);

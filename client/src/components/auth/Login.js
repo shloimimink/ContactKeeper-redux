@@ -1,15 +1,40 @@
-import React, {useState, useContext, useEffect} from 'react';
-import AuthContext from'../../context/auth/AuthContext';
-import AlertContext from "../../context/alert/AlertContext";
+import React, {useState, useEffect} from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import {connect} from 'react-redux';
+import {setAlert} from '../../actions/alert';
+import {clearErrors, login} from '../../actions/auth';
 
 
-const Login = (props) => {
-    const alertContext = useContext(AlertContext);
-    const authContext = useContext(AuthContext);
+const Login = ({props, error, isAuthenticated}) => {
 
-    const {setAlert} = alertContext;
-    const {login, error, clearErrors, isAuthenticated} = authContext;
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
 
+    const { email, password } = formData;
+
+    const onChange = e =>
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        if (email === '' || password === '') {
+            setAlert('Please fill in all fields', 'danger')
+        } else {
+            login({
+                email,
+                password
+            })
+        }
+
+    };
+
+    if (isAuthenticated) {
+        return <Redirect to='/' />;
+    }
+
+    /*
     useEffect(() => {
         if (isAuthenticated) {
             props.history.push('/')
@@ -34,19 +59,7 @@ const Login = (props) => {
     const onChange = (e) => {
         setUser({...user, [e.target.name]: e.target.value})
     };
-
-    const onSubmit = (e) => {
-        e.preventDefault();
-        if (email === '' || password === '') {
-            setAlert('Please fill in all fields', 'danger')
-        } else {
-            login({
-                email,
-                password
-            })
-        }
-
-    };
+    */
 
     return (
         <div className="form-container">
@@ -68,4 +81,10 @@ const Login = (props) => {
     );
 };
 
-export default Login;
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+export default connect(
+    mapStateToProps,
+    { login, clearErrors, setAlert }
+)(Login);

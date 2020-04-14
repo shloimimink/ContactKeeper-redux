@@ -7,10 +7,10 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Alerts from './components/layout/Alerts';
 import PrivateRoute from './components/routing/PrivateRoute';
+import {Provider} from 'react-redux';
+import store from "./store";
 
-import ContactState from './context/contact/ContactState';
-import AuthState from './context/auth/AuthState';
-import AlertState from './context/alert/AlertState';
+//redux
 import setAuthToken from './utils/setAuthToken';
 import './App.css';
 
@@ -20,10 +20,9 @@ if (localStorage.token) {
 }
 
 const App = () => {
+
     return (
-        <AuthState>
-        <ContactState>
-            <AlertState>
+        <Provider store={store}>
         <Router>
             <Fragment>
                 <Navbar/>
@@ -38,9 +37,7 @@ const App = () => {
                 </div>
             </Fragment>
         </Router>
-            </AlertState>
-        </ContactState>
-        </AuthState>
+        </Provider>
     );
 };
 

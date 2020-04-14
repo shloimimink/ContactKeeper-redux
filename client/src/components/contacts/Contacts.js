@@ -1,14 +1,13 @@
-import React, {Fragment, useContext, useEffect} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import {CSSTransition, TransitionGroup} from "react-transition-group";
 import ContactItem from './ContactItem';
-import ContactContext from '../../context/contact/contactContext';
+import { connect } from 'react-redux';
+import {getContacts} from '../../actions/contactActions';
 import Spinner from "../layout/Spinner";
 
 
-const Contacts = () => {
-    const contactContext = useContext(ContactContext);
+const Contacts = ({contact: {loading, filtered, contacts}, getContacts}) => {
 
-    const {contacts, filtered, getContacts, loading} = contactContext;
 
     useEffect(() => {
         getContacts();
@@ -39,4 +38,8 @@ const Contacts = () => {
     );
 };
 
-export default Contacts;
+const mapStateToProps = (state) => ({
+    contact: state.contact
+});
+
+export default connect(mapStateToProps, {getContacts}) (Contacts);

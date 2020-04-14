@@ -9,10 +9,17 @@ import {
     CONTACT_ERROR,
     CLEAR_CONTACTS,
     GET_CONTACTS
-} from "../types";
+} from "../actions/types";
 
 
-export default (state, action) => {
+const initialState = {
+    contacts: null,
+    current: null,
+    filtered: null,
+    error: null
+};
+
+export default function (state = initialState, action) {
     switch (action.type) {
         case GET_CONTACTS:
             return {
@@ -30,7 +37,7 @@ export default (state, action) => {
             return {
                 ...state,
                 contacts: state.contacts.map(contact =>
-                contact._id === action.payload._id ? action.payload : contact),
+                    contact._id === action.payload._id ? action.payload : contact),
                 loading: false
             };
         case DELETE_CONTACT:
@@ -78,4 +85,5 @@ export default (state, action) => {
         default:
             return state;
     }
+
 }

@@ -1,13 +1,10 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import ContactContext from '../../context/contact/contactContext';
-
-
+import {connect} from 'react-redux';
+import {deleteContact, setCurrent, clearCurrent} from '../../actions/contactActions';
 
 const ContactItem = ({contact}) => {
-    const contactContext = useContext(ContactContext);
-    const {deleteContact, setCurrent, clearCurrent} = contactContext;
-
+  
     const {_id, name, email, phone, type} = contact;
 
     const onDelete = () => {
@@ -43,4 +40,8 @@ ContactItem.propTypes = {
     contact: PropTypes.object.isRequired,
 };
 
-export default ContactItem;
+const mapStateToProps = (state) => ({
+    contact: state.contact.contact
+});
+
+export default connect(mapStateToProps, {deleteContact, setCurrent, clearCurrent}) (ContactItem);

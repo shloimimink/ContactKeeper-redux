@@ -1,17 +1,12 @@
-import React, {Fragment, useContext} from 'react';
+import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
-import AuthContext from '../../context/auth/AuthContext';
-import ContactContext from '../../context/contact/contactContext';
+import {connect} from 'react-redux';
+import {logout} from '../../actions/auth';
+import {clearContacts} from '../../actions/contactActions';
 
 
-
-const Navbar = ({title, icon}) => {
-    const authContext = useContext(AuthContext);
-    const contactContext = useContext(ContactContext);
-
-    const {isAuthenticated, logout, user} = authContext;
-    const {clearContacts} = contactContext;
+const Navbar = ({title, icon, isAuthenticated, user}) => {
 
     const onLogout = () => {
         logout();
@@ -64,4 +59,11 @@ Navbar.defaultProps = {
     icon: 'fas fa-id-card-alt'
 };
 
-export default Navbar;
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
+export default connect(
+    mapStateToProps,
+    { logout, clearContacts}
+)(Navbar);

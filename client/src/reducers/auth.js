@@ -1,8 +1,23 @@
-import {REGISTER_SUCCESS, REGISTER_FAIL, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, CLEAR_ERRORS} from '../types';
-//import {default} from "react-transition-group/esm/utils/SimpleSet";
+import {
+    REGISTER_SUCCESS,
+    REGISTER_FAIL,
+    USER_LOADED,
+    AUTH_ERROR,
+    LOGIN_SUCCESS,
+    LOGIN_FAIL,
+    LOGOUT,
+    CLEAR_ERRORS} from '../actions/types';
 
 
-export default (state, action) => {
+const initialState = {
+    token: localStorage.getItem('token'),
+    isAuthenticated: null,
+    loading: true,
+    user: null,
+    error: null
+};
+
+export default function (state = initialState, action) {
     switch (action.type) {
         case USER_LOADED:
             return {
