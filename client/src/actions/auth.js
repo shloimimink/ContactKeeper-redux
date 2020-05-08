@@ -29,6 +29,7 @@ export const loadUser = () => async dispatch => {
 
 // Register User
 export const register = (formData) => async dispatch => {
+
     const config = {
         headers: {
             'Content-Type': 'application/json'
@@ -42,7 +43,7 @@ export const register = (formData) => async dispatch => {
             payload: res.data
         });
 
-        loadUser();
+        dispatch(loadUser());
     }catch (err) {
         dispatch({
             type: REGISTER_FAIL,
@@ -52,6 +53,7 @@ export const register = (formData) => async dispatch => {
 };
 // Login User
 export const login = (formData) => async dispatch => {
+    console.log(formData);
     const config = {
         headers: {
             'Content-Type': 'application/json'
@@ -65,7 +67,7 @@ export const login = (formData) => async dispatch => {
             payload: res.data
         });
 
-        loadUser();
+        dispatch(loadUser());
     }catch (err) {
         dispatch({
             type: LOGIN_FAIL,

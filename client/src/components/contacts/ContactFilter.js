@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {filterContacts, clearFilter} from '../../actions/contactActions';
 
 
-const ContactFilter = ({filtered}) => {
+const ContactFilter = ({filtered, filterContacts, clearFilter}) => {
     const text = useRef('');
 
     useEffect(() => {

@@ -4,8 +4,7 @@ import {addContact, updateContact, clearCurrent} from '../../actions/contactActi
 
 
 
-const ContactForm = ({current}) => {
-
+const ContactForm = ({current, addContact, updateContact, clearCurrent}) => {
     useEffect(() => {
         if (current !== null) {
             setContact(current);
@@ -38,8 +37,8 @@ const ContactForm = ({current}) => {
         updateContact(contact);
       }
      clearAll();
-
     };
+
 
     const clearAll = () => {
         clearCurrent();
@@ -80,4 +79,8 @@ const ContactForm = ({current}) => {
     );
 };
 
-export default connect(null, {addContact, updateContact, clearCurrent}) (ContactForm);
+const mapStateToProps = (state) => ({
+    current: state.contact.current
+});
+
+export default connect(mapStateToProps, {addContact, updateContact, clearCurrent}) (ContactForm);

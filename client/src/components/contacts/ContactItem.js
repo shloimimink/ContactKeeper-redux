@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {deleteContact, setCurrent, clearCurrent} from '../../actions/contactActions';
 
-const ContactItem = ({contact}) => {
-  
+const ContactItem = ({contact, deleteContact, setCurrent, clearCurrent}) => {
+console.log(contact)
     const {_id, name, email, phone, type} = contact;
 
     const onDelete = () => {
@@ -40,8 +40,8 @@ ContactItem.propTypes = {
     contact: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+/*const mapStateToProps = (state) => ({
     contact: state.contact.contact
-});
+});*/
 
-export default connect(mapStateToProps, {deleteContact, setCurrent, clearCurrent}) (ContactItem);
+export default connect(null, {deleteContact, setCurrent, clearCurrent}) (ContactItem);

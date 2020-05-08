@@ -1,33 +1,41 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import {setAlert} from '../../actions/alert';
 import {clearErrors, register} from '../../actions/auth';
 
 
-const Register = ({props, error, isAuthenticated}) => {
+const Register = ({props, error, isAuthenticated, setAlert, register}) => {
+    console.log(props);
+    useEffect(() => {
+        if (isAuthenticated) {
+            props.history.push('/');
+        }
 
-    const [formData, setFormData] = useState({
+        if (error === 'User already exists') {
+            setAlert(error, 'danger');
+            clearErrors();
+        }
+        // eslint-disable-next-line
+    }, [error, isAuthenticated, props.history]);
+
+    const [user, setUser] = useState({
         name: '',
         email: '',
         password: '',
         password2: ''
     });
 
-    const { name, email, password, password2 } = formData;
+    const { name, email, password, password2 } = user;
 
-    const onChange = e =>
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
 
     const onSubmit = (e) => {
         e.preventDefault();
         if (name === ''|| email === ''|| password === '') {
-            console.log(setAlert);
             setAlert('Please enter all fields', 'danger')
         } else if (password !== password2) {
             setAlert('Passwords do not match', 'danger')
         } else {
-            console.log('hgello');
             register({
                 name,
                 email,
@@ -36,10 +44,6 @@ const Register = ({props, error, isAuthenticated}) => {
         }
 
     };
-
-    if (isAuthenticated) {
-        return <Redirect to='/' />;
-    }
 
     return (
         <div className="form-container">
@@ -69,8 +73,9 @@ const Register = ({props, error, isAuthenticated}) => {
     );
 };
 
-const mapStateToProps = (state) => ({
-    isAuthenticated: state.auth.isAuthenticated
+const mapStateToProps = (state, props) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    props: props
 });
 
 

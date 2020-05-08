@@ -6,8 +6,8 @@ import {logout} from '../../actions/auth';
 import {clearContacts} from '../../actions/contactActions';
 
 
-const Navbar = ({title, icon, isAuthenticated, user}) => {
-
+const Navbar = ({auth: {title, icon, isAuthenticated, user}, logout}) => {
+    console.log(isAuthenticated)
     const onLogout = () => {
         logout();
         clearContacts();

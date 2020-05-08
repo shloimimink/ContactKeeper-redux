@@ -13,13 +13,12 @@ import axios from 'axios';
 
 // Get Contacts
 export const getContacts = () => async dispatch => {
-
     try {
         const res = await axios.get('/api/contacts');
 
         dispatch({type: GET_CONTACTS, payload: res.data})
     }catch (err) {
-        dispatch({type: CONTACT_ERROR, payload: err.response.msg})
+        dispatch({type: CONTACT_ERROR, payload: err.response.data.msg})
     }
 
 

@@ -18,8 +18,10 @@
     "config": "^3.2.2",
     "express": "^4.17.1",
     "express-validator": "^6.1.1",
+    "history": "^4.10.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.6.6"
+    "mongoose": "^5.6.6",
+    "react-history": "^0.18.2"
   },
   "devDependencies": {
     "concurrently": "^4.1.1",
